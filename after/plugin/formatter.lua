@@ -1,0 +1,35 @@
+
+--local status, formatter = pcall(require, "formatter")
+----
+---- Configuración de Prettier
+--formatter.setup({
+--  filetype = {
+--    javascript = {
+--      -- Puedes ajustar los argumentos según tus preferencias
+--      function()
+--        return {
+--          exe = "prettier",
+--          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+--          stdin = true
+--        }
+--      end
+--    },
+--    python = {
+--      function()
+--        return {
+--          exe = "prettier",
+--          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+--          stdin = true
+--        }
+--      end
+--    }
+--  }
+--})
+
+---- Asignar el comando para formatear con Prettier
+--vim.api.nvim_exec([[
+--augroup FormatAutogroup
+--  autocmd!
+--  autocmd BufWritePost *.js,*.py FormatWrite
+--augroup END
+--]], true)
