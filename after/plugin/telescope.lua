@@ -4,6 +4,8 @@ local actions = require('telescope.actions')
 
 local fb_actions = require "telescope".extensions.file_browser.actions
 
+-- require('telescope').load_extension('dap')
+
 local function telescope_buffer_dir()
   return vim.fn.expand('%:p:h')
 end
@@ -36,4 +38,5 @@ vim.keymap.set("n", "ff", function()
 end)
 
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+
 

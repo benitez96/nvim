@@ -121,4 +121,36 @@ return require('packer').startup(function(use)
 
 	use 'windwp/nvim-ts-autotag'
 
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 500
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
+
+
+  --Debugger
+  use {'mfussenegger/nvim-dap'}
+  use {'rcarriga/nvim-dap-ui'}
+  use {'nvim-telescope/telescope-dap.nvim'}
+  use {'theHamsta/nvim-dap-virtual-text'}
+
+  -- JS Debugger Adapter
+  use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
+  use {
+    "microsoft/vscode-js-debug",
+    opt = true,
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
+  }
+
+  -- Python Debugger Adapter
+  use {'mfussenegger/nvim-dap-python'}
+
+
 end)
