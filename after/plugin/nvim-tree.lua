@@ -10,7 +10,11 @@ vim.keymap.set("n", "<F3>", ":NvimTreeToggle<CR>", { noremap = true, silent = tr
 vim.opt.termguicolors = true
 --
 
+-- auto close nvim-tree when it's the last window
+vim.cmd[[autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]]
+
 require("nvim-tree").setup({
+  autoclose = true,
   sort_by = "case_sensitive",
   view = {
     width = 30,
