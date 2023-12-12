@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
 	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
+		'nvim-telescope/telescope.nvim', tag = '0.1.5',
 		-- or                            , branch = '0.1.x',
 		requires = { { 'nvim-lua/plenary.nvim' } }
 	}
@@ -36,7 +36,7 @@ return require('packer').startup(function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 	})
 
-	use 'github/copilot.vim'
+	-- use 'github/copilot.vim'
 
 
 	use { 'mg979/vim-visual-multi', branch = 'master' }
@@ -48,6 +48,7 @@ return require('packer').startup(function(use)
 	-- guide linef
 	use "lukas-reineke/indent-blankline.nvim"
 
+
 	use 'NvChad/nvim-colorizer.lua'
 
 	use "mbbill/undotree"
@@ -58,24 +59,21 @@ return require('packer').startup(function(use)
 	use 'kyazdani42/nvim-web-devicons' -- File icons
 
 	-- LSP UIs
-	use({
-		"glepnir/lspsaga.nvim",
-		opt = true,
-		branch = "main",
-		event = "LspAttach",
-		config = function()
-			require("lspsaga").setup({})
-		end,
-		requires = {
+  use ({
+    'nvimdev/lspsaga.nvim',
+    after = 'nvim-lspconfig',
+    config = function()
+      require('lspsaga').setup({})
+    end,
+		dependencies = {
 			{"nvim-tree/nvim-web-devicons"},
-			--Please make sure you install markdown and markdown_inline parser
 			{"nvim-treesitter/nvim-treesitter"}
 		}
-	})
+  })
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v1.x',
+		branch = 'v3.x',
 		requires = {
 
 			-- cool cmp
@@ -121,20 +119,6 @@ return require('packer').startup(function(use)
 
 	use 'windwp/nvim-ts-autotag'
 
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 500
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
-    end
-  }
-
-
   --Debugger
   use {'mfussenegger/nvim-dap'}
   use {'rcarriga/nvim-dap-ui'}
@@ -143,14 +127,21 @@ return require('packer').startup(function(use)
 
   -- JS Debugger Adapter
   use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
-  use {
-    "microsoft/vscode-js-debug",
-    opt = true,
-    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
-  }
 
   -- Python Debugger Adapter
   use {'mfussenegger/nvim-dap-python'}
+
+
+  -- emojis
+  use "stevearc/dressing.nvim"
+  use({ "ziontee113/icon-picker.nvim", })
+
+  -- rust support
+  use "rust-lang/rust.vim"
+
+  -- astro support
+  use 'wuelnerdotexe/vim-astro'
+
 
 
 end)

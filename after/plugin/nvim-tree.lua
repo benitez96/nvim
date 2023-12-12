@@ -14,7 +14,6 @@ vim.opt.termguicolors = true
 vim.cmd[[autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]]
 
 require("nvim-tree").setup({
-  autoclose = true,
   sort_by = "case_sensitive",
   view = {
     width = 30,

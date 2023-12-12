@@ -1,8 +1,5 @@
--- Learn the keybindings, see :help lsp-zero-keybindings
--- Learn to configure LSP servers, see :help lsp-zero-api-showcase
-local lsp = require('lsp-zero')
 local lspkind = require('lspkind')
-
+local lsp_zero = require('lsp-zero')
 
 local function formatForTailwindCSS(entry, vim_item)
 	if vim_item.kind == 'Color' and entry.completion_item.documentation then
@@ -22,39 +19,38 @@ local function formatForTailwindCSS(entry, vim_item)
 	return vim_item
 end
 
-lsp.preset('recommended')
+lsp_zero.on_attach(function(client, bufnr)
+  lsp_zero.default_keymaps({buffer = bufnr})
+end)
 
-lsp.ensure_installed({
-	'html',
-	'pyright',
-	'tailwindcss',
-	'tsserver',
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {
+    'tsserver', 
+    'html',
+    'pyright',
+    'tailwindcss',
+    'tsserver',
+    'astro',
+  },
+  handlers = {
+    lsp_zero.default_setup,
+    lua_ls = function()
+      local lua_opts = lsp_zero.nvim_lua_ls()
+      require('lspconfig').lua_ls.setup(lua_opts)
+    end,
+  }
 })
 
 local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-y>'] = cmp.mapping.confirm({ select = true }),
-	["<C-Space>"] = cmp.mapping.complete(),
-})
+local cmp_select = {behavior = cmp.SelectBehavior.Select}
 
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
-
-
-lsp.setup_nvim_cmp({
-	snippet = {
-		expand = function(args)
-			require('luasnip').lsp_expand(args.body)
-		end,
-	},
-	mapping = cmp_mappings,
-	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' },
-		{ name = 'buffer' },
-	}),
+cmp.setup({
+  sources = {
+    {name = 'path'},
+    {name = 'nvim_lsp'},
+    {name = 'nvim_lua'},
+  },
 	formatting = {
 		format = lspkind.cmp_format({
 			maxwidth = 50,
@@ -63,11 +59,7 @@ lsp.setup_nvim_cmp({
 				return vim_item
 			end
 		})
-	}
+	},
+	mapping = cmp_mappings,
 })
 
-lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
-end)
-
-lsp.setup()
